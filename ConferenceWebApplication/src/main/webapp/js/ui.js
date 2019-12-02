@@ -78,6 +78,7 @@ const updateUI = async () => {
 
       document.getElementById("profile-data").innerText = JSON.stringify(user, null, 2);
       document.getElementById("token-data").innerText = JSON.stringify(parseJwt(token), null, 2);
+      document.getElementById("token-encoded").innerText = token;
       document.querySelectorAll("pre code").forEach(hljs.highlightBlock);
 
       eachElement(".profile-image", (e) => (e.src = user.picture));

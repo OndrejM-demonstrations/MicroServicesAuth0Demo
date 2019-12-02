@@ -20,4 +20,42 @@
         <conference.service.session.port>8080</conference.service.session.port>
         <conference.service.speaker.port>8081</conference.service.speaker.port>
     </properties>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>0.31.0</version>
+                    <configuration>
+                        <images>
+                            <image>
+                                <alias>${project.artifactId}</alias>
+                                <name>fra.ocir.io/frwjmf7vcn8t/conference/webapp:${project.version}</name>
+                                <build>
+                                    <from>payara/micro:${version.payara}</from>
+                                    <cmd>
+                                        <arg>--nocluster</arg>
+                                        <arg>/opt/payara/deployments/ROOT.war</arg>
+                                    </cmd>
+                                    <assembly>
+                                        <basedir>/opt/payara/deployments</basedir>
+                                        <inline>
+                                            <files>
+                                                <file>
+                                                    <source>${basedir}/target/${project.build.finalName}.war</source>
+                                                    <destName>ROOT.war</destName>
+                                                </file>
+                                            </files>
+                                        </inline>
+                                    </assembly>
+                                </build>
+                            </image>
+                        </images>
+                    </configuration>
+                </plugin>
+            </plugins>
+
+        </pluginManagement>
+    </build>
 </project>
