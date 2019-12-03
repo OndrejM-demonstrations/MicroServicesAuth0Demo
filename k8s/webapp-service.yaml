@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+        - name: webapp
+          image: fra.ocir.io/frwjmf7vcn8t/conference-webapp:1.0
+          env:
+          - name: mp_jwt_verify_publickey_location
+            value: https://payara.auth0.com/.well-known/jwks.json
+          - name: mp_jwt_verify_issuer
+            value: https://payara.auth0.com/
+          imagePullPolicy: Always
+          ports:
+          - name: webapp
+            containerPort: 8080
+            protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /ready.json
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            failureThreshold: 10
+      imagePullSecrets:
+        - name: payara-conference
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp
+spec:
+  type: LoadBalancer
+  selector:
+    app: webapp
+  ports:
+  - name: web
+    port: 8080

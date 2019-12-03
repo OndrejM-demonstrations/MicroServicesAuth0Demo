@@ -1,5 +1,5 @@
-const speakerService = "http://localhost:8081/";
-const sessionService = "http://localhost:8080/";
+const speakerService = "rest/";
+const sessionService = "rest/";
 
 const loadSpeakers = async () => {
     try {

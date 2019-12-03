@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: session
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: session
+  template:
+    metadata:
+      labels:
+        app: session
+    spec:
+      containers:
+        - name: session
+          image: fra.ocir.io/frwjmf7vcn8t/conference-session:1.0
+          env:
+          - name: mp_jwt_verify_publickey_location
+            value: https://payara.auth0.com/.well-known/jwks.json
+          - name: mp_jwt_verify_issuer
+            value: https://payara.auth0.com/
+          imagePullPolicy: Always
+          ports:
+          - name: session
+            containerPort: 8080
+            protocol: TCP
+      imagePullSecrets:
+        - name: payara-conference
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: session
+spec:
+  selector:
+    app: session
+  ports:
+  - name: web
+    port: 8080

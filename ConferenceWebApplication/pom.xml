@@ -15,8 +15,20 @@
     <name>ConferenceWebApplication</name>
     <properties>
         <failOnMissingWebXml>false</failOnMissingWebXml>
+        <docker.appname>webapp</docker.appname>
+        <version.microprofile>2.2</version.microprofile>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.eclipse.microprofile</groupId>
+            <artifactId>microprofile</artifactId>
+            <version>${version.microprofile}</version>
+            <scope>provided</scope>
+            <type>pom</type>
+        </dependency>
+    </dependencies>
+    
     <build>
         <finalName>conference-webapp</finalName>
         <plugins>
@@ -27,6 +39,28 @@
                 <configuration>
                     <payaraVersion>${version.payara}</payaraVersion>
                     <deployWar>false</deployWar>
+                    <javaCommandLineOptions>
+                        <option>
+                            <key>-Dmp.jwt.verify.publickey.location</key>
+                            <value>https://payara.auth0.com/.well-known/jwks.json</value>
+                        </option>
+                        <option>
+                            <key>-Dmp.jwt.verify.issuer</key>
+                            <value>https://payara.auth0.com/</value>
+                        </option>
+                        <option>
+                            <key>-Dspeaker.url</key>
+                            <value>http://localhost:8081/speaker</value>
+                        </option>
+                        <option>
+                            <key>-Dsession.url</key>
+                            <value>http://localhost:8080/session</value>
+                        </option>
+                        <option>
+                            <key>-Dregister.url</key>
+                            <value>http://localhost:8080/register</value>
+                        </option>
+                    </javaCommandLineOptions>                    
                     <commandLineOptions>
                         <option>
                             <key>--port</key>

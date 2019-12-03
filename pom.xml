@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>fish.payara.demos</groupId>
     <artifactId>Auth0Conference</artifactId>
-    <version>1.0.0</version>
+    <version>1.0</version>
     <packaging>pom</packaging>
     <modules>
         <module>ConferenceWebApplication</module>
@@ -19,6 +19,7 @@
         <conference.service.webapp.port>8000</conference.service.webapp.port>
         <conference.service.session.port>8080</conference.service.session.port>
         <conference.service.speaker.port>8081</conference.service.speaker.port>
+        <docker.appname></docker.appname>
     </properties>
     <build>
         <pluginManagement>
@@ -31,7 +32,7 @@
                         <images>
                             <image>
                                 <alias>${project.artifactId}</alias>
-                                <name>fra.ocir.io/frwjmf7vcn8t/conference/webapp:${project.version}</name>
+                                <name>fra.ocir.io/frwjmf7vcn8t/conference-${docker.appname}:${project.version}</name>
                                 <build>
                                     <from>payara/micro:${version.payara}</from>
                                     <cmd>

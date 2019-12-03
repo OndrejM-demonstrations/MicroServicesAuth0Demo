@@ -2,14 +2,9 @@ For Frankfurt-1 region, object storage namespace of my tenancy: frwjmf7vcn8t
 
 Docker repo: devopsconf
 
-Tag images:
+Images are tagged and pushed to cloud from maven build, `docker` profile
 
-```
-docker tag pragmatic-microservices-lab/cargo-tracker:5.0 fra.ocir.io/frwjmf7vcn8t/payara-microservices/cargo-tracker:5.0
-docker tag pragmatic-microservices-lab/path-finder:5.0 fra.ocir.io/frwjmf7vcn8t/payara-microservices/path-finder:5.0
-```
-
-Log in with docker:
+It might be necessary to log in with docker before pushing them:
 
 ```
 docker login fra.ocir.io
@@ -17,17 +12,10 @@ Username: frwjmf7vcn8t/ondrej.mihalyi@gmail.com
 Password: content of token file
 ```
 
-Push the images:
-
-```
-docker push fra.ocir.io/frwjmf7vcn8t/payara-microservices/cargo-tracker:5.0
-docker push fra.ocir.io/frwjmf7vcn8t/payara-microservices/path-finder:5.0
-```
-
 Create kubectl secret:
 
 ```
-kubectl create secret docker-registry payara-microservices --docker-server=fra.ocir.io --docker-username='frwjmf7vcn8t/ondrej.mihalyi@gmail.com' --docker-password='xvJMV<]imi9+q<WIb+Uf' --docker-email='ondrej.mihalyi@gmail.com'
+kubectl create secret docker-registry payara-conference --docker-server=fra.ocir.io --docker-username='frwjmf7vcn8t/ondrej.mihalyi@gmail.com' --docker-password='xvJMV<]imi9+q<WIb+Uf' --docker-email='ondrej.mihalyi@gmail.com'
 ```
 
 Generate K8S Dashboard token using `oci`:

@@ -20,7 +20,7 @@ import javax.ws.rs.core.Response;
  */
 @Path("/register")
 @RequestScoped
-@RolesAllowed("Attendee")
+@RolesAllowed({"Attendee", "Admin"})
 public class RegistrationResource {
     
     @Inject

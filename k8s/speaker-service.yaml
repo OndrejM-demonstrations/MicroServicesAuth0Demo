@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: speaker
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: speaker
+  template:
+    metadata:
+      labels:
+        app: speaker
+    spec:
+      containers:
+        - name: speaker
+          image: fra.ocir.io/frwjmf7vcn8t/conference-speaker:1.0
+          env:
+          - name: mp_jwt_verify_publickey_location
+            value: https://payara.auth0.com/.well-known/jwks.json
+          - name: mp_jwt_verify_issuer
+            value: https://payara.auth0.com/
+          imagePullPolicy: Always
+          ports:
+          - name: speaker
+            containerPort: 8080
+            protocol: TCP
+      imagePullSecrets:
+        - name: payara-conference
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: speaker
+spec:
+  selector:
+    app: speaker
+  ports:
+  - name: web
+    port: 8080
